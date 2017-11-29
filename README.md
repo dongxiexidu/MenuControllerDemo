@@ -1,4 +1,4 @@
-# AdvertScrollView
+# 仿QQ长按Menu 效果图
 
 
 ## 效果图
