@@ -3,7 +3,7 @@
 
 ## 效果图
 
-![](https://github.com/dongxiexidu/AdvertScollViewExample/blob/master/demo.gif)
+![](https://github.com/dongxiexidu/MenuControllerDemo/blob/master/demo.gif)
 
 
 
