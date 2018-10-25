@@ -27,7 +27,8 @@ class BaseTableViewCell: UITableViewCell {
             guard let message = message else {
                 return
             }
-            let imageName = message.msgDirection == .incoming ? #imageLiteral(resourceName: "liuyifei") : #imageLiteral(resourceName: "xiaohuangren")
+            
+            let imageName = message.msgDirection == .incoming ? DXAsset.liuyifei_icon.image : DXAsset.xiaohuangren_icon.image
             avatarHeaderView.image = imageName
         }
     }
@@ -67,7 +68,7 @@ class BaseTableViewCell: UITableViewCell {
         contentView.addSubview(avatarHeaderView)
         
         if alignement == .left {
-            let bubbleImage = #imageLiteral(resourceName: "qq_bubble_b")
+            let bubbleImage = DXAsset.qq_bubble_b_icon.image
             bubbleView.image = bubbleImage.stretchableImage(withLeftCapWidth: 20, topCapHeight: 15)
             avatarHeaderView.snp.makeConstraints({ (make) in
                 make.top.equalToSuperview()
@@ -84,7 +85,7 @@ class BaseTableViewCell: UITableViewCell {
             })
             
         }else{
-            let bubbleImage = #imageLiteral(resourceName: "qq_bubble_a")
+            let bubbleImage = DXAsset.qq_bubble_a_icon.image
             bubbleView.image = bubbleImage.stretchableImage(withLeftCapWidth: 14, topCapHeight: 15)
             
             avatarHeaderView.snp.makeConstraints({ (make) in
@@ -120,11 +121,12 @@ class BaseTableViewCell: UITableViewCell {
 extension BaseTableViewCell {
     @objc func longPressOnBubble(gesture : UILongPressGestureRecognizer) {
         if gesture.state == UIGestureRecognizerState.began {
-            if message?.msgDirection == .incoming {
-                customMenu.itemType = [.copys,.transmit,.collect,.delete]
-            }else{
-                customMenu.itemType = [.copys,.transmit,.collect,.revoke,.delete]
-            }
+        if message?.msgDirection == .incoming {
+            customMenu.itemType = [.copys,.transmit,.collect,.delete]
+        }else{
+           // customMenu.itemType = [.copys,.transmit,.collect,.revoke,.delete]
+            customMenu.itemType = .allCase
+        }
             
             NotificationCenter.default.post(name: NSNotification.Name.MenuWillHideNoti, object: nil)
             keyWindow?.addSubview(customMenu)
@@ -140,23 +142,23 @@ extension BaseTableViewCell: MenuViewDelegate {
     func menuToThumbup() {
         print("menuToThumbupTapped")
     }
-    func menuToCopy() {
-        print("menuToCopy")
-    }
-    func menutoDelete() {
-        print("menutoDelete")
-    }
-    
-    func menuToPreview() {
-        print("menuToPreview")
-    }
-    
-    func menuToTransmit() {
-        print("menuToTransmit")
-    }
-    
-    func menuToDowanload() {
-        print("menuToDowanload")
-    }
+//    func menuToCopy() {
+//        print("menuToCopy")
+//    }
+//    func menutoDelete() {
+//        print("menutoDelete")
+//    }
+//
+//    func menuToPreview() {
+//        print("menuToPreview")
+//    }
+//
+//    func menuToTransmit() {
+//        print("menuToTransmit")
+//    }
+//
+//    func menuToDowanload() {
+//        print("menuToDowanload")
+//    }
     
 }

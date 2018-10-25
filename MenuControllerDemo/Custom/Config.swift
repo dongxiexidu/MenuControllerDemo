@@ -29,6 +29,6 @@ class Helper: NSObject {
 extension Notification.Name {
     
     /// menu将隐藏的通知
-    static let MenuWillHideNoti = Notification.Name(rawValue: "MenuWillHideNoti")
+   public static let MenuWillHideNoti = Notification.Name(rawValue: "MenuWillHideNoti")
 
 }

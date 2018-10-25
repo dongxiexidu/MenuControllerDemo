@@ -9,6 +9,25 @@
 import UIKit
 import SnapKit
 
+/*
+public struct UIRectCorner : OptionSet {
+    
+    public init(rawValue: UInt)
+    
+    
+    public static var topLeft: UIRectCorner { get }
+    
+    public static var topRight: UIRectCorner { get }
+    
+    public static var bottomLeft: UIRectCorner { get }
+    
+    public static var bottomRight: UIRectCorner { get }
+    
+    public static var allCorners: UIRectCorner { get }
+}
+ */
+
+// 静态属性集合
 struct MenuItemType : OptionSet {
     
     public var rawValue = 0  // 因为RawRepresentable的要求
@@ -23,15 +42,44 @@ struct MenuItemType : OptionSet {
     public static var revoke = MenuItemType(rawValue : 1 << 4)
 
     public static var download = MenuItemType(rawValue : 1 << 5)
+    
+    public static var allCase: MenuItemType {
+        
+        return [.copys, .transmit, .collect, .delete, .revoke, .download]
+    }
 }
 
-@objc protocol MenuViewDelegate : NSObjectProtocol {
-   @objc optional func menuToThumbup()
-   @objc optional func menuToCopy()
-   @objc optional func menutoDelete()
-   @objc optional func menuToTransmit()
-   @objc optional func menuToDowanload()
-   @objc optional func menuToPreview()
+protocol MenuViewDelegate {
+    func menuToThumbup()
+    func menuToCopy()
+    func menutoDelete()
+    func menuToTransmit()
+    func menuToDowanload()
+    func menuToPreview()
+}
+
+extension MenuViewDelegate{
+    func menuToThumbup() {
+        print("delegate - menuToThumbupTapped")
+    }
+    func menuToCopy() {
+        print("delegate - menuToCopy")
+    }
+    func menutoDelete() {
+        print("delegate - menutoDelete")
+    }
+    
+    func menuToPreview() {
+        print("delegate - menuToPreview")
+    }
+    
+    func menuToTransmit() {
+        print("delegate - menuToTransmit")
+    }
+    
+    func menuToDowanload() {
+        print("delegate - menuToDowanload")
+    }
 }
 
 class MenuView: UIView {
@@ -45,8 +93,15 @@ class MenuView: UIView {
                 make.leading.trailing.bottom.equalTo(backgroundImageView)
                 make.top.equalTo(backgroundImageView).offset(8)
             }
-
-            if itemType.contains(.copys) && itemType.contains(.transmit) && itemType.contains(.collect) && itemType.contains(.delete) && itemType.contains(.revoke){
+            if itemType == .allCase {
+                itemCount = 6
+                containerView.addArrangedSubview(copyingButton)
+                containerView.addArrangedSubview(transmitButton)
+                containerView.addArrangedSubview(collectButton)
+                containerView.addArrangedSubview(revokeButton)
+                containerView.addArrangedSubview(deleteButton)
+                containerView.addArrangedSubview(downloadButton)
+            }else if itemType.contains([.copys,.transmit,.collect,.delete,.revoke]){
                 itemCount = 5
                 containerView.addArrangedSubview(copyingButton)
                 containerView.addArrangedSubview(transmitButton)
@@ -66,7 +121,7 @@ class MenuView: UIView {
         }
     }
     var itemCount : NSInteger = 0
-    open weak var delegate : MenuViewDelegate?
+    open var delegate : MenuViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -84,7 +139,7 @@ class MenuView: UIView {
     
     lazy var backgroundImageView : UIImageView = {
         let backView = UIImageView()
-        let bgImage = #imageLiteral(resourceName: "longpress_bg")
+        let bgImage = DXAsset.longpress_bg_icon.image
         backView.image = bgImage.stretchableImage(withLeftCapWidth: Int(bgImage.size.width * 0.5), topCapHeight: Int(bgImage.size.height * 0.5))
         backView.isUserInteractionEnabled = true
         return backView
@@ -102,7 +157,7 @@ class MenuView: UIView {
         return containerView
     }()
     lazy var revokeButton : UIButton = {
-        let button =  creatButton(name: "撤回", image: #imageLiteral(resourceName: "revoke"))
+        let button =  creatButton(name: "撤回", image: DXAsset.revoke_icon.image)
         button.addTarget(self, action: #selector(thumbupButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -120,7 +175,8 @@ class MenuView: UIView {
     
     
     lazy var deleteButton : UIButton = {
-        let button =  creatButton(name: "删除", image: #imageLiteral(resourceName: "delete"))
+        
+        let button =  creatButton(name: "删除", image: DXAsset.delete_icon.image)
         button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -128,7 +184,8 @@ class MenuView: UIView {
     
     
     lazy var copyingButton : UIButton = {
-        let button =  creatButton(name: "复制", image: #imageLiteral(resourceName: "copy"))
+        
+        let button =  creatButton(name: "复制", image: DXAsset.copy_icon.image)
         button.addTarget(self, action: #selector(copyButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -136,7 +193,8 @@ class MenuView: UIView {
     
     
     lazy var transmitButton : UIButton = {
-        let button =  creatButton(name: "转发", image: #imageLiteral(resourceName: "share"))
+        
+        let button =  creatButton(name: "转发", image: DXAsset.transmit_icon.image)
         button.addTarget(self, action: #selector(transmitButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -144,7 +202,8 @@ class MenuView: UIView {
     
     
     lazy var downloadButton : UIButton = {
-        let button =  creatButton(name: "下载", image: #imageLiteral(resourceName: "download"))
+        
+        let button =  creatButton(name: "下载", image: DXAsset.download_icon.image)
         button.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -152,7 +211,8 @@ class MenuView: UIView {
     
     
     lazy var collectButton : UIButton = {
-        let button =  creatButton(name: "收藏", image: #imageLiteral(resourceName: "favorite"))
+        
+        let button =  creatButton(name: "收藏", image: DXAsset.favorite_icon.image)
         button.addTarget(self, action: #selector(previewButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -185,11 +245,12 @@ extension MenuView {
         
         if frame.origin.y > targetRect.origin.y { // 箭头向上
             backgroundImageView.frame = CGRect.init(x: 0, y: arrowH, width: menuW, height: menuH-arrowH)
-            arrowImageView.image = #imageLiteral(resourceName: "longpress_up_arrow")
+            
+            arrowImageView.image = DXAsset.longpress_up_arrow_icon.image
             arrowImageView.frame = CGRect.init(x: arrowX, y: 0, width: arrowW, height: arrowH)
         }else{// 箭头向下
             backgroundImageView.frame = CGRect.init(x: 0, y: 0, width: menuW, height: menuH-arrowH)
-            arrowImageView.image = #imageLiteral(resourceName: "longpress_down_arrow")
+            arrowImageView.image = DXAsset.longpress_down_arrow_icon.image
             arrowImageView.frame = CGRect.init(x: arrowX, y: menuH-arrowH, width: arrowW, height: arrowH)
         }
     }
@@ -199,45 +260,34 @@ extension MenuView {
 extension MenuView {
     
     @objc func thumbupButtonTapped(){
-        
-        if let delegate = delegate,delegate.responds(to: #selector(delegate.menuToThumbup)) {
-            delegate.menuToThumbup!()
-        }
+        delegate?.menuToThumbup()
         self.removeFromSuperview()
     }
     
     @objc func deleteButtonTapped(){
-        if let delegate = delegate,delegate.responds(to: #selector(delegate.menutoDelete)) {
-            delegate.menutoDelete!()
-        }
+
+        delegate?.menutoDelete()
         self.removeFromSuperview()
     }
     
     @objc func copyButtonTapped(){
-        if let delegate = delegate,delegate.responds(to: #selector(delegate.menuToCopy)) {
-            delegate.menuToCopy!()
-        }
+        delegate?.menuToCopy()
         self.removeFromSuperview()
     }
     
     @objc func transmitButtonTapped(){
-        if let delegate = delegate,delegate.responds(to: #selector(delegate.menuToTransmit)) {
-            delegate.menuToTransmit!()
-        }
+        delegate?.menuToTransmit()
         self.removeFromSuperview()
     }
     
     @objc func downloadButtonTapped(){
-        if let delegate = delegate,delegate.responds(to: #selector(delegate.menuToDowanload)) {
-            delegate.menuToDowanload!()
-        }
+
+        delegate?.menuToDowanload()
         self.removeFromSuperview()
     }
     
     @objc func previewButtonTapped(){
-        if let delegate = delegate,delegate.responds(to: #selector(delegate.menuToPreview)) {
-            delegate.menuToPreview!()
-        }
+        delegate?.menuToPreview()
         self.removeFromSuperview()
     }
 }
