@@ -27,7 +27,7 @@ extension UIButton {
         
         let imageWith : CGFloat = imageView!.image!.size.width
         let imageHeight : CGFloat = imageView!.image!.size.height
-        let attrs = [NSAttributedStringKey.font:titleLabel!.font!]
+        let attrs = [NSAttributedString.Key.font:titleLabel!.font!]
         let labelWidth : CGFloat = titleLabel!.text!.size(withAttributes: attrs).width
         let labelHeight : CGFloat = titleLabel!.text!.size(withAttributes: attrs).height
         
@@ -42,17 +42,17 @@ extension UIButton {
         
         switch position {
         case .left:
-            imageEdgeInsets = UIEdgeInsetsMake(0, -spacing/2, 0, spacing/2)
-            titleEdgeInsets = UIEdgeInsetsMake(0, spacing/2, 0, -spacing/2)
+            imageEdgeInsets = UIEdgeInsets(top: 0, left: -spacing/2, bottom: 0, right: spacing/2)
+            titleEdgeInsets = UIEdgeInsets(top: 0, left: spacing/2, bottom: 0, right: -spacing/2)
         case .right:
-            imageEdgeInsets = UIEdgeInsetsMake(0, labelWidth + spacing/2, 0, -(labelWidth + spacing/2))
-            titleEdgeInsets = UIEdgeInsetsMake(0, -(imageHeight + spacing/2), 0, imageHeight + spacing/2)
+            imageEdgeInsets = UIEdgeInsets(top: 0, left: labelWidth + spacing/2, bottom: 0, right: -(labelWidth + spacing/2))
+            titleEdgeInsets = UIEdgeInsets(top: 0, left: -(imageHeight + spacing/2), bottom: 0, right: imageHeight + spacing/2)
         case .top:
-            imageEdgeInsets = UIEdgeInsetsMake(-imageOffsetY, imageOffsetX, imageOffsetY, -imageOffsetX)
-            titleEdgeInsets = UIEdgeInsetsMake(labelOffsetY, -labelOffsetX, -labelOffsetY, labelOffsetX)
+            imageEdgeInsets = UIEdgeInsets(top: -imageOffsetY, left: imageOffsetX, bottom: imageOffsetY, right: -imageOffsetX)
+            titleEdgeInsets = UIEdgeInsets(top: labelOffsetY, left: -labelOffsetX, bottom: -labelOffsetY, right: labelOffsetX)
         case .bottom:
-            imageEdgeInsets = UIEdgeInsetsMake(imageOffsetY, imageOffsetX, -imageOffsetY, -imageOffsetX)
-            titleEdgeInsets = UIEdgeInsetsMake(-labelOffsetY, -labelOffsetX, labelOffsetY, labelOffsetX)
+            imageEdgeInsets = UIEdgeInsets(top: imageOffsetY, left: imageOffsetX, bottom: -imageOffsetY, right: -imageOffsetX)
+            titleEdgeInsets = UIEdgeInsets(top: -labelOffsetY, left: -labelOffsetX, bottom: labelOffsetY, right: labelOffsetX)
         }
     }
 }

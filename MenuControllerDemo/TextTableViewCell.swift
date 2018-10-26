@@ -23,11 +23,11 @@ class TextTableViewCell: BaseTableViewCell {
 
         if alignement == .right {
             textView.snp.makeConstraints({ (make) in
-                make.edges.equalToSuperview().inset(UIEdgeInsetsMake(12, 16, 12, 21))
+                make.edges.equalToSuperview().inset(UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 21))
             })
         }else{
             textView.snp.makeConstraints({ (make) in
-                make.edges.equalToSuperview().inset(UIEdgeInsetsMake(12, 21, 12, 16))
+                make.edges.equalToSuperview().inset(UIEdgeInsets(top: 12, left: 21, bottom: 12, right: 16))
             })
         }
     }

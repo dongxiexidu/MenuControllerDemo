@@ -35,7 +35,7 @@ class BaseTableViewCell: UITableViewCell {
     /// 头像
     var avatarHeaderView : UIImageView!
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         alignement = reuseIdentifier?.contains(kCellIdentifierLeft) == true ? .left : .right
@@ -120,7 +120,7 @@ class BaseTableViewCell: UITableViewCell {
 // MARK: Private Method
 extension BaseTableViewCell {
     @objc func longPressOnBubble(gesture : UILongPressGestureRecognizer) {
-        if gesture.state == UIGestureRecognizerState.began {
+        if gesture.state == UIGestureRecognizer.State.began {
         if message?.msgDirection == .incoming {
             customMenu.itemType = [.copys,.transmit,.collect,.delete]
         }else{

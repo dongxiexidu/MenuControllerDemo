@@ -19,7 +19,7 @@ class Helper: NSObject {
     public class func getLabelHeight(text:String,font:CGFloat,width:CGFloat) -> CGFloat {
         
         let paraStyle = NSMutableParagraphStyle.init()
-        let paraDic = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: font),NSAttributedStringKey.paragraphStyle:paraStyle]
+        let paraDic = [NSAttributedString.Key.font : UIFont.systemFont(ofSize: font),NSAttributedString.Key.paragraphStyle:paraStyle]
 
         let size = text.boundingRect(with: CGSize(width:width,height:UIScreen.main.bounds.size.height), options: .usesLineFragmentOrigin, attributes: paraDic, context: nil)
         return size.height;
